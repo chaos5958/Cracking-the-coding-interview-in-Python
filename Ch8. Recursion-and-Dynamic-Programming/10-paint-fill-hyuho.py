@@ -1,25 +1,23 @@
-# Fill in the region containing the point with the given color.
+def paint_fill(screen, row, column, new_color):
+    if screen[row][column] == new_color:
+        return
 
-def paint_fill(image, x, y, color):
-  if x < 0 or y < 0 or len(image) <= y or len(image[y]) <= x:
-    return
-  old_color = image[y][x]
-  if old_color == color:
-    return
-  paint_fill_color(image, x, y, color, old_color)
+    old_color = screen[row][column]
+    _paint_fill(screen, row, column, new_color, old_color)
 
-def paint_fill_color(image, x, y, new_color, old_color):
-  if image[y][x] != old_color:
-    return
-  image[y][x] = new_color
-  if y > 0:
-    paint_fill_color(image, x, y - 1, new_color, old_color)
-  if y < len(image) - 1:
-    paint_fill_color(image, x, y + 1, new_color, old_color)
-  if x > 0:
-    paint_fill_color(image, x - 1, y, new_color, old_color)
-  if x < len(image[y]) - 1:
-    paint_fill_color(image, x + 1, y, new_color, old_color)
+def _paint_fill(screen, row, column, new_color, old_color):
+    if row < 0 or row >= len(screen):
+        return
+    if column < 0 or column >= len(screen[0]):
+        return
+    if screen[row][column] != old_color:
+        return
+
+    screen[row][column] = new_color
+    _paint_fill(screen, row - 1, column, new_color, old_color)
+    _paint_fill(screen, row + 1, column, new_color, old_color)
+    _paint_fill(screen, row, column - 1, new_color, old_color)
+    _paint_fill(screen, row, column + 1, new_color, old_color)
 
 import unittest
 
